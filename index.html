@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Income Tax Application Form</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f2f4f7;
+}
+
+.container{
+    width:500px;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+}
+
+label{
+    font-weight:bold;
+}
+
+input, select{
+    width:100%;
+    padding:8px;
+    margin:8px 0 18px;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#2c7be5;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1a5fc1;
+}
+
+.result{
+    margin-top:20px;
+    padding:15px;
+    background:#eaf4ff;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Income Tax Application Form</h2>
+
+<form id="taxForm">
+
+<label>Full Name</label>
+<input type="text" id="name" required>
+
+<label>PAN Number</label>
+<input type="text" id="pan" required>
+
+<label>Age</label>
+<input type="number" id="age" required>
+
+<label>Annual Income (₹)</label>
+<input type="number" id="income" required>
+
+<label>Regime</label>
+<select id="regime">
+<option value="new">New Regime</option>
+<option value="old">Old Regime</option>
+</select>
+
+<button type="submit">Calculate Tax</button>
+
+</form>
+
+<div class="result" id="result"></div>
+</div>
+
+<script>
+
+function calculateNewTax(income){
+    let tax=0;
+
+    if(income<=300000) tax=0;
+    else if(income<=600000) tax=(income-300000)*0.05;
+    else if(income<=900000) tax=(300000*0.05)+(income-600000)*0.10;
+    else if(income<=1200000) tax=(300000*0.05)+(300000*0.10)+(income-900000)*0.15;
+    else if(income<=1500000) tax=(300000*0.05)+(300000*0.10)+(300000*0.15)+(income-1200000)*0.20;
+    else tax=(300000*0.05)+(300000*0.10)+(300000*0.15)+(300000*0.20)+(income-1500000)*0.30;
+
+    return tax;
+}
+
+document.getElementById("taxForm").addEventListener("submit",function(e){
+    e.preventDefault();
+
+    let name=document.getElementById("name").value;
+    let pan=document.getElementById("pan").value;
+    let age=document.getElementById("age").value;
+    let income=parseFloat(document.getElementById("income").value);
+
+    let tax=calculateNewTax(income);
+
+    document.getElementById("result").innerHTML=
+    "<h3>Tax Details</h3>"+
+    "Name: "+name+"<br>"+
+    "PAN: "+pan+"<br>"+
+    "Age: "+age+"<br>"+
+    "Annual Income: ₹"+income+"<br>"+
+    "<b>Total Tax Payable: ₹"+tax.toFixed(2)+"</b>";
+});
+
+</script>
+
+</body>
+</html>
+```
